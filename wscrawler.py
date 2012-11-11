@@ -8,9 +8,9 @@ import threading
 import zlib
 
 # select a downloader from this pool
-downloaders = ["http://localhost:6543"],
-                "http://localhost:6544",
-                "http://localhost:6545"]
+downloaders = ["http://localhost:6543"]#,
+                #"http://localhost:6544",
+                #"http://localhost:6545"]
 
 def FetchUrl():
     index = 0
@@ -30,6 +30,7 @@ def FetchUrl():
                 response = urllib2.urlopen(url)
                 print "Fetched %s:"%item['url'], response.read()
                 response.close()
+                wsdb.db.urlset.update({'url':item['url']},{'$set':{'fetched':'ing'}})
             except Exception, e:
                 import traceback
                 print "Exception occurs while getting %s"%item['url']
